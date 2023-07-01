@@ -1,21 +1,27 @@
 // Завдання 1
 /**
  * Функція `getDateDetails` отримує об'єкт дати та повертає об'єкт з деякими деталями про дату.
- *
  * date - Об'єкт Date.
- *
  * Повертає об'єкт, який містить такі властивості:
  *  year - рік,
  *  month - місяць,
  *  day - день місяця.
  */
 function getDateDetails(date) {
-  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
-  // Якщо date не є об'єктом Date, повертаємо рядок
-  // "Помилка: вхідне значення має бути об'єктом Date"
+  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши
+  //чи є date.getTime по типу функція.
+  // Якщо date не є об'єктом Date, повертаємо рядок "Помилка: вхідне значення має бути об'єктом Date"
   // Повертаємо об'єкт, що містить деякі деталі про вхідний об'єкт Date.
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  } else {
+    return {
+      year: date.getFullYear(),
+      month: date.getDate(),
+      day: date.getDate(),
+    };
+  }
 }
-
 console.log("Завдання: 1 ==============================");
 const now = new Date("2023-12-25T00:00:00Z");
 console.log(getDateDetails(new Date("2023-12-25T00:00:00Z")));
@@ -32,14 +38,24 @@ console.log(getDateDetails(new Date("2023-12-25T00:00:00Z")));
  */
 function setDateDetails(date, isoString) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
-  // Якщо date не є об'єктом Date, повертаємо рядок
-  // "Помилка: вхідне значення має бути об'єктом Date"
+  // if (!(date instanceof Date)) {
+  //   return "Помилка: вхідне значення має бути об'єктом Date";
+  // }
+  // Якщо date не є об'єктом Date, повертаємо рядок "Помилка: вхідне значення має бути об'єктом Date"
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
+  const newDate = new Date(isoString);
   // Перевірка, чи є вхідний ISO рядок валідним, отримавши дату з рядка та перевірити чи є результат числом,
   //  якщо ні виводимо повідомлення "Помилка: недійсний ISO рядок"
+  if (isNaN(newDate.getTime())) {
+    return "Помилка: недійсний ISO рядок";
+  }
   // Встановлюємо дату з ISO рядка в об'єкт Date.
+  date.setTime(newDate.getTime());
   // Повертаємо об'єкт Date з встановленою датою.
+  return date;
 }
-
 console.log("Завдання: 2 ==============================");
 const date = new Date();
 console.log(setDateDetails(date, "2023-12-25T00:00:00Z"));
@@ -48,18 +64,20 @@ console.log(setDateDetails(date, "2023-12-25T00:00:00Z"));
 // Завдання 3
 /**
  * Функція `dateToUTC` приймає об'єкт Date та повертає рядок, що представляє дату в UTC форматі.
- *
  * date - Об'єкт Date.
- *
  * Повертає рядок з датою в UTC форматі, якщо вхідне значення є дійсним об'єктом Date. Якщо ні, виводить повідомлення про помилку.
  */
 function dateToUTC(date) {
-  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
+  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Повертаємо рядок з датою в UTC форматі.
+  if (!(date instanceof Date)) {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  } else {
+    return date.toUTCString();
+  }
 }
-
 console.log("Завдання: 3 ==============================");
 console.log(dateToUTC(new Date()));
 //Виведе Tue, 27 Jun 2023 07:15:47 GMT
@@ -82,6 +100,12 @@ function setSpecificTime(date, hours, minutes, seconds, milliseconds) {
   // "Помилка: вхідне значення має бути об'єктом Date"
   // Встановлюємо конкретний час в об'єкті Date за допомогою setHours.
   // Повертаємо об'єкт Date з встановленим часом.
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  } else {
+    date.setHours(hours, minutes, seconds, milliseconds);
+  }
+  return date;
 }
 
 console.log("Завдання: 4 ==============================");
