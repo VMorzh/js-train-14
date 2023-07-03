@@ -119,7 +119,6 @@ console.log(
 /**
  * Функція `nextNewYear` приймає об'єкт Date і повертає час до наступного Нового року.
  *
- *
  * Повертає об'єкт з інформацією про час до наступного Нового року:
  * {
  *   days: // Кількість днів до Нового року.
@@ -132,7 +131,8 @@ console.log(
 function nextNewYear() {
   // Створюєму змінну в яку записуємо поточну дату
   // Визначення поточного року.
-  // Визначення дати наступного Нового року. Для цього створюємо новий об`єкт Date в якому збільшуємо поточний рік на 1, встановлюємо місяць на 0 а дату на 1
+  // Визначення дати наступного Нового року. Для цього створюємо новий об`єкт Date в якому
+  //збільшуємо поточний рік на 1, встановлюємо місяць на 0 а дату на 1
   // Визначаємо кількість мілісекунд до наступного Нового року в змінну diff.
   // Розраховуємо кількість повних днів, годин, хвилин і секунд.
   // Дні:diff / (1000 * 60 * 60 * 24)
@@ -140,8 +140,21 @@ function nextNewYear() {
   // Хвилини: (diff / (1000 * 60)) % 60;
   // Секунди:(diff / 1000) % 60;
   // Мілісекунди:  diff % 1000;
-}
 
+  let currentDate = new Date();
+
+  const nextYear = currentDate.getFullYear() + 1;
+  // Встановлюємо місяць на 0 (січень)
+  const january = 0;
+
+  // Встановлюємо дату на 1
+  const firstDay = 1;
+
+  // const diff =
+  const nextNewYear = new Date(nextYear, january, firstDay);
+  return nextNewYear;
+}
+//
 console.log("Завдання:5  ==============================");
 
 console.log(nextNewYear());
@@ -164,9 +177,20 @@ function isLeapYear(year) {
   // Перевірка, чи є рік високосним.
   // Високосним вважається рік, який ділиться націло на 4
   // Повертаємо об'єкт з роком та інформацією про те, чи є він високосним.
+  const result = {
+    year: year,
+    isLeap: false,
+  };
+  if (isNaN(year) || typeof year !== "number") {
+    result.error = "Вхідне значення повинно бути числом.";
+    return result;
+  }
+  if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
+    result.isLeap = true;
+  }
+  return result;
 }
 console.log("Завдання: 6 ==============================");
-
 console.log(isLeapYear(2020));
 //Виведе { year: 2020, isLeap: true }
 
@@ -185,7 +209,8 @@ console.log(isLeapYear(2020));
  * }
  */
 function addDays(date, days) {
-  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
+  // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити
+  //перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
   // Перевірка, чи є кількість днів числом.
@@ -195,7 +220,27 @@ function addDays(date, days) {
   // Додавання заданої кількості днів до дати.
   // Збереження результуючої дати для виведення в форматі ISO.
   // Повертаємо об'єкт з початковою датою, кількістю доданих днів та результуючою датою.
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
+  if (isNaN(days) || typeof days !== "number") {
+    return undefined, "кількість днів має бути числом";
+  }
+
+  let result = {
+    inputDate: date.toISOString(),
+    addedDays: days,
+  };
+  let resultDate = new Date(date);
+
+  resultDate.setDate(date.getDate() + days);
+
+  result.resultDate = resultDate;
+
+  return result;
 }
+
+// date.setTime(newDate.getTime());
 
 console.log("Завдання: 7 ==============================");
 
@@ -228,7 +273,6 @@ let daysOfWeek = [
   "п’ятниця",
   "субота",
 ];
-
 function getDayOfWeek(date) {
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
@@ -237,10 +281,19 @@ function getDayOfWeek(date) {
   // Отримання дня тижня як числа (0 - неділя, 1 - понеділок, ..., 6 - субота).
   // Отримання назви дня тижня з масиву daysOfWeek за індексом.
   // Повертаємо об'єкт з початковою датою та днем тижня.
+
+  if (typeof date.getTime !== "function") {
+    return "Помилка: вхідне значення має бути об'єктом Date";
+  }
+
+  let inputDate = date.toISOString();
+
+  // inputDate.setDate(date.getDayOfWeek);
+
+  return inputDate;
 }
 
 console.log("Завдання: 8 ==============================");
-
 console.log(getDayOfWeek(new Date("2023-01-01")));
 //Виведе { inputDate: '2023-01-01T00:00:00.000Z', dayOfWeek: 'неділя' }
 
